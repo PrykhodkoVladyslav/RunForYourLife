@@ -4,29 +4,41 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed;
-    private PlayerMoveInputAction _moveInputAction;
-    private InputAction _move;
+    private Rigidbody2D _rb;
+    private PlayerMoveInputAction _playerMoveInputAction;
+    private InputAction _moveInputAction;
+    private Vector2 _move;
 
     private void Awake()
     {
-        _moveInputAction = new PlayerMoveInputAction();
+        _rb = GetComponent<Rigidbody2D>();
+        _playerMoveInputAction = new PlayerMoveInputAction();
     }
 
     private void OnEnable()
     {
-        _move = _moveInputAction.Player.Move;
-        _move.Enable();
+        _moveInputAction = _playerMoveInputAction.Player.Move;
+        _moveInputAction.Enable();
+
+        _moveInputAction.performed += OnMove;
+        _moveInputAction.canceled += OnMove;
     }
 
     private void OnDisable()
     {
-        _move.Disable();
+        _moveInputAction.performed -= OnMove;
+        _moveInputAction.canceled -= OnMove;
+
+        _moveInputAction.Disable();
     }
 
-    private void Update()
+    public void OnMove(InputAction.CallbackContext context)
     {
-        var move = _move.ReadValue<Vector2>();
+        _move = context.ReadValue<Vector2>();
+    }
 
-        transform.position += new Vector3(move.x, move.y, 0) * (speed * Time.deltaTime);
+    private void FixedUpdate()
+    {
+        _rb.MovePosition(_rb.position + _move * (speed * Time.fixedDeltaTime));
     }
 }
