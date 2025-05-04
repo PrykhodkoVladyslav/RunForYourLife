@@ -8,11 +8,16 @@ public class PlayerMovement : MonoBehaviour
     private PlayerMoveInputAction _playerMoveInputAction;
     private InputAction _moveInputAction;
     private Vector2 _move;
+    private Animator _animator;
+    private static readonly int IsWalking = Animator.StringToHash("isWalking");
+    private SpriteRenderer _spriteRenderer;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _playerMoveInputAction = new PlayerMoveInputAction();
+        _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnEnable()
@@ -35,6 +40,19 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         _move = context.ReadValue<Vector2>();
+    }
+
+    private void Update()
+    {
+        _animator.SetBool(IsWalking, (_move.x != 0 || _move.y != 0));
+        if (_move.x < 0)
+        {
+            _spriteRenderer.flipX = true;
+        }
+        else if (_move.x > 0)
+        {
+            _spriteRenderer.flipX = false;
+        }
     }
 
     private void FixedUpdate()
