@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ElfBasicAtk001BGR_0: 7596253221039902196
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
