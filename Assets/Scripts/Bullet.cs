@@ -3,6 +3,7 @@
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private GameObject owner;
+    [SerializeField] private float damage;
 
     public GameObject Owner
     {
@@ -12,7 +13,13 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject != owner)
-            Destroy(gameObject);
+        if (collision.gameObject == owner)
+            return;
+
+        Destroy(gameObject);
+
+        var healthController = collision.gameObject.GetComponent<HealthController>();
+        if (healthController)
+            healthController.TakeDamage(damage);
     }
 }
