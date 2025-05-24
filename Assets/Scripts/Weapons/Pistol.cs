@@ -31,7 +31,7 @@ namespace Weapons
             Physics2D.IgnoreCollision(owner.GetComponent<Collider2D>(), bullet.GetComponent<Collider2D>(), true);
 
             var bulletScript = bullet.GetComponent<Bullet>();
-            bulletScript.owner = owner;
+            bulletScript.Owner = owner;
 
             var rb = bullet.GetComponent<Rigidbody2D>();
             rb.AddForce(transform.right * bulletForce, ForceMode2D.Impulse);

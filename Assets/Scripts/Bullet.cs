@@ -2,7 +2,13 @@
 
 public class Bullet : MonoBehaviour
 {
-    public GameObject owner;
+    [SerializeField] private GameObject owner;
+
+    public GameObject Owner
+    {
+        get => owner;
+        set => owner = value;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

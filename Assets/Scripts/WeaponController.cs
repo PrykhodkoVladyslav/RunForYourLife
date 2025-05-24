@@ -2,7 +2,7 @@
 
 public class WeaponController : MonoBehaviour
 {
-    public GameObject weaponPivot;
+    [SerializeField] private GameObject weaponPivot;
     private WeaponPivot _weaponPivot;
 
     private void Start()
@@ -14,8 +14,8 @@ public class WeaponController : MonoBehaviour
     {
         RemoveWeapon();
 
-        _weaponPivot.weapon = weapon;
-        _weaponPivot.weapon.transform.parent = _weaponPivot.transform;
+        weapon.transform.parent = _weaponPivot.transform;
+        _weaponPivot.Weapon = weapon;
     }
 
     public void RemoveWeapon()
@@ -23,13 +23,13 @@ public class WeaponController : MonoBehaviour
         if (!HasWeapon())
             return;
 
-        _weaponPivot.weapon.transform.parent = null;
-        Destroy(_weaponPivot.weapon.gameObject);
-        _weaponPivot.weapon = null;
+        _weaponPivot.Weapon.transform.parent = null;
+        Destroy(_weaponPivot.Weapon.gameObject);
+        _weaponPivot.Weapon = null;
     }
 
     public bool HasWeapon()
     {
-        return _weaponPivot.weapon;
+        return _weaponPivot.Weapon;
     }
 }

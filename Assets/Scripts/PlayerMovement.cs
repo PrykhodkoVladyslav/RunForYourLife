@@ -3,21 +3,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed;
-    private Rigidbody2D _rb;
+    [SerializeField] private float speed;
+    private Rigidbody2D _rigidbody;
     private PlayerMoveInputAction _playerMoveInputAction;
     private InputAction _moveInputAction;
     private Vector2 _move;
     private Animator _animator;
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
-    private SpriteRenderer _spriteRenderer;
+    private SpriteRotator _spriteRotator;
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
         _playerMoveInputAction = new PlayerMoveInputAction();
         _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRotator = GetComponent<SpriteRotator>();
     }
 
     private void OnEnable()
@@ -40,23 +40,16 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         _move = context.ReadValue<Vector2>();
+        _spriteRotator.ByDirection(_move);
     }
 
     private void Update()
     {
         _animator.SetBool(IsWalking, (_move.x != 0 || _move.y != 0));
-        if (_move.x < 0)
-        {
-            _spriteRenderer.flipX = true;
-        }
-        else if (_move.x > 0)
-        {
-            _spriteRenderer.flipX = false;
-        }
     }
 
     private void FixedUpdate()
     {
-        _rb.MovePosition(_rb.position + _move * (speed * Time.fixedDeltaTime));
+        _rigidbody.MovePosition(_rigidbody.position + _move * (speed * Time.fixedDeltaTime));
     }
 }

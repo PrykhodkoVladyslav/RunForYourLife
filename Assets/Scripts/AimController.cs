@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class AimController : MonoBehaviour
 {
-    public GameObject weaponPivot;
+    [SerializeField] private GameObject weaponPivot;
     private WeaponInputAction _weaponInputAction;
     private InputAction _mousePositionInputAction;
     private InputAction _gamepadAimInputAction;
@@ -46,12 +46,12 @@ public class AimController : MonoBehaviour
     {
         var mousePosition = _mousePositionInputAction.ReadValue<Vector2>();
 
-        if (Camera.main == null)
+        if (!Camera.main)
             return;
 
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        var mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
         Vector2 direction = mouseWorldPosition - weaponPivot.transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         _rotation = Quaternion.Euler(0, 0, angle);
     }
 
@@ -62,7 +62,7 @@ public class AimController : MonoBehaviour
         if (gamepadAim == Vector2.zero)
             return;
 
-        float angle = Mathf.Atan2(gamepadAim.y, gamepadAim.x) * Mathf.Rad2Deg;
+        var angle = Mathf.Atan2(gamepadAim.y, gamepadAim.x) * Mathf.Rad2Deg;
         _rotation = Quaternion.Euler(0, 0, angle);
     }
 

@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class ShootController : MonoBehaviour
 {
-    public GameObject weaponPivot;
+    [SerializeField] private GameObject weaponPivot;
     private WeaponInputAction _weaponInputAction;
     private InputAction _shootInputAction;
     private bool _isShooting;

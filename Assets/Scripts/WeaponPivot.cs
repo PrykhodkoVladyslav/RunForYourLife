@@ -3,7 +3,24 @@ using Weapons;
 
 public class WeaponPivot : MonoBehaviour
 {
-    public GameObject weapon;
+    [SerializeField] private GameObject weapon;
+    private Weapon _weaponComponent;
+
+    public GameObject Weapon
+    {
+        get => weapon;
+        set
+        {
+            _weaponComponent = weapon ? weapon.GetComponent<Weapon>() : null;
+
+            weapon = value;
+        }
+    }
+
+    private void Start()
+    {
+        _weaponComponent = weapon ? weapon.GetComponent<Weapon>() : null;
+    }
 
     private void Update()
     {
@@ -27,10 +44,9 @@ public class WeaponPivot : MonoBehaviour
 
     public void Shoot()
     {
-        if (!weapon)
+        if (!_weaponComponent)
             return;
 
-        weapon.GetComponent<Weapon>()
-            .Shoot(transform.rotation);
+        _weaponComponent.Shoot(transform.rotation);
     }
 }
