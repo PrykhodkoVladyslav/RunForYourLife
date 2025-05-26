@@ -11,15 +11,15 @@ public class Bullet : MonoBehaviour
         set => owner = value;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (collision.gameObject == owner)
+        if (other.gameObject == owner)
             return;
 
-        Destroy(gameObject);
-
-        var healthController = collision.gameObject.GetComponent<HealthController>();
+        var healthController = other.gameObject.GetComponent<HealthController>();
         if (healthController)
             healthController.TakeDamage(damage);
+
+        Destroy(gameObject);
     }
 }

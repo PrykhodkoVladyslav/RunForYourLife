@@ -1122,7 +1122,47 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Queen_Spritelist_0: 2482604488865709333
+      Queen_Spritelist_1: -4965278595674014418
+      Queen_Spritelist_10: 8864330472140303507
+      Queen_Spritelist_11: -4064827850759121797
+      Queen_Spritelist_12: -5981462402281577861
+      Queen_Spritelist_13: 6545340200064055108
+      Queen_Spritelist_14: -5005242939210013023
+      Queen_Spritelist_15: 5386411459314686381
+      Queen_Spritelist_16: -8880504164363330993
+      Queen_Spritelist_17: 1634935723958563953
+      Queen_Spritelist_18: 448989493284874801
+      Queen_Spritelist_19: 1418466924811371550
+      Queen_Spritelist_2: 3080052280533997043
+      Queen_Spritelist_20: -3978180230549263094
+      Queen_Spritelist_21: 7322303453255250166
+      Queen_Spritelist_22: -3167269873279772263
+      Queen_Spritelist_23: -5811085430268569913
+      Queen_Spritelist_24: -4920734357302052918
+      Queen_Spritelist_25: -8516942008700787240
+      Queen_Spritelist_26: 7190335932604292529
+      Queen_Spritelist_27: -1653189330110227143
+      Queen_Spritelist_28: 5213137353565712385
+      Queen_Spritelist_29: -1189216041225155453
+      Queen_Spritelist_3: 3246030085307617033
+      Queen_Spritelist_30: -9041000733724204050
+      Queen_Spritelist_31: 3471974411877511356
+      Queen_Spritelist_32: -5914911213841176694
+      Queen_Spritelist_33: 4304600690315644536
+      Queen_Spritelist_34: 5853745022884681583
+      Queen_Spritelist_35: 592708883202317307
+      Queen_Spritelist_36: 3797443519965568741
+      Queen_Spritelist_37: 7930369455558031866
+      Queen_Spritelist_38: 3758898755047627116
+      Queen_Spritelist_39: 8077352802531319905
+      Queen_Spritelist_4: -1762929367478421193
+      Queen_Spritelist_5: 7834147725336384390
+      Queen_Spritelist_6: -5587900625278664320
+      Queen_Spritelist_7: -2282242991661139949
+      Queen_Spritelist_8: -8251040315411105721
+      Queen_Spritelist_9: -599384879282398100
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
