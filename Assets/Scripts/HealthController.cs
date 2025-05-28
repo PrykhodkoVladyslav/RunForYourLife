@@ -4,10 +4,13 @@ public class HealthController : MonoBehaviour
 {
     [SerializeField] private float maxHealth;
     private float _health;
+    private HealthBar _healthBar;
 
     private void Awake()
     {
         _health = maxHealth;
+
+        _healthBar = GetComponentInChildren<HealthBar>();
     }
 
     public float Health
@@ -21,11 +24,11 @@ public class HealthController : MonoBehaviour
             }
             else if (value > maxHealth)
             {
-                _health = maxHealth;
+                SetHealth(maxHealth);
             }
             else
             {
-                _health = value;
+                SetHealth(value);
             }
         }
     }
@@ -33,5 +36,13 @@ public class HealthController : MonoBehaviour
     public void TakeDamage(float damage)
     {
         Health -= damage;
+    }
+
+    private void SetHealth(float value)
+    {
+        _health = value;
+
+        if (_healthBar)
+            _healthBar.SetHealth(_health / maxHealth);
     }
 }
