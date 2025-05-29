@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class HealthController : MonoBehaviour
@@ -5,9 +6,13 @@ public class HealthController : MonoBehaviour
     [SerializeField] private float maxHealth;
     private float _health;
     private HealthBar _healthBar;
+    private bool _died;
+    public event EventHandler<EventArgs> OnDie;
 
     private void Awake()
     {
+        _died = false;
+
         _health = maxHealth;
 
         _healthBar = GetComponentInChildren<HealthBar>();
@@ -20,7 +25,11 @@ public class HealthController : MonoBehaviour
         {
             if (value <= 0)
             {
-                Destroy(gameObject);
+                if (_died)
+                    return;
+
+                _died = true;
+                OnDie?.Invoke(this, EventArgs.Empty);
             }
             else if (value > maxHealth)
             {
@@ -32,6 +41,8 @@ public class HealthController : MonoBehaviour
             }
         }
     }
+
+    public bool IsDied => _died;
 
     public void TakeDamage(float damage)
     {
