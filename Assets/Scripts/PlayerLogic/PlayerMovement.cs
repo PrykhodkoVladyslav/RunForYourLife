@@ -7,7 +7,7 @@ namespace PlayerLogic
     {
         [SerializeField] private float speed;
         private Rigidbody2D _rigidbody;
-        private PlayerMoveInputAction _playerMoveInputAction;
+        private MainInputAction _mainInputAction;
         private InputAction _moveInputAction;
         private Vector2 _move;
         private Animator _animator;
@@ -18,7 +18,7 @@ namespace PlayerLogic
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _playerMoveInputAction = new PlayerMoveInputAction();
+            _mainInputAction = new MainInputAction();
             _animator = GetComponent<Animator>();
             _spriteRotator = GetComponent<SpriteRotator>();
             _healthController = GetComponent<HealthController>();
@@ -26,19 +26,41 @@ namespace PlayerLogic
 
         private void OnEnable()
         {
-            _moveInputAction = _playerMoveInputAction.Player.Move;
+            PauseController.Instance.OnPaused += Disable;
+            PauseController.Instance.OnUnpaused += Enable;
+
+            Enable();
+        }
+
+        private void OnDisable()
+        {
+            PauseController.Instance.OnPaused -= Disable;
+            PauseController.Instance.OnUnpaused -= Enable;
+
+            Disable();
+        }
+
+        private void Enable()
+        {
+            _moveInputAction = _mainInputAction.Player.Move;
             _moveInputAction.Enable();
 
             _moveInputAction.performed += OnMove;
             _moveInputAction.canceled += OnMove;
+
+            _animator.speed = 1;
         }
 
-        private void OnDisable()
+        private void Disable()
         {
             _moveInputAction.performed -= OnMove;
             _moveInputAction.canceled -= OnMove;
 
             _moveInputAction.Disable();
+
+            _animator.speed = 0;
+
+            _move = Vector2.zero;
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -49,6 +71,9 @@ namespace PlayerLogic
 
         private void Update()
         {
+            if (PauseController.Instance.IsPaused)
+                return;
+
             if (_healthController.IsDied)
                 return;
 

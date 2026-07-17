@@ -6,32 +6,48 @@ namespace PlayerLogic
     public class AimController : MonoBehaviour
     {
         [SerializeField] private GameObject weaponPivot;
-        private WeaponInputAction _weaponInputAction;
+        private MainInputAction _mainInputAction;
         private InputAction _mousePositionInputAction;
         private InputAction _gamepadAimInputAction;
         private Quaternion _rotation;
 
         private void Awake()
         {
-            _weaponInputAction = new WeaponInputAction();
+            _mainInputAction = new MainInputAction();
         }
 
         private void OnEnable()
         {
-            _mousePositionInputAction = _weaponInputAction.Aim.MousePosition;
+            Enable();
+
+            PauseController.Instance.OnPaused += Disable;
+            PauseController.Instance.OnUnpaused += Enable;
+        }
+
+        private void OnDisable()
+        {
+            Disable();
+
+            PauseController.Instance.OnPaused -= Disable;
+            PauseController.Instance.OnUnpaused -= Enable;
+        }
+
+        private void Enable()
+        {
+            _mousePositionInputAction = _mainInputAction.Aim.MousePosition;
             _mousePositionInputAction.Enable();
 
             _mousePositionInputAction.performed += OnMousePositionChanged;
             _mousePositionInputAction.canceled += OnMousePositionChanged;
 
-            _gamepadAimInputAction = _weaponInputAction.Aim.GamepadAim;
+            _gamepadAimInputAction = _mainInputAction.Aim.GamepadAim;
             _gamepadAimInputAction.Enable();
 
             _gamepadAimInputAction.performed += OnStickMoved;
             _gamepadAimInputAction.canceled += OnStickMoved;
         }
 
-        private void OnDisable()
+        private void Disable()
         {
             _mousePositionInputAction.performed -= OnMousePositionChanged;
             _mousePositionInputAction.canceled -= OnMousePositionChanged;

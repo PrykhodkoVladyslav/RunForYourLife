@@ -21,6 +21,9 @@ namespace EnemyLogic
 
         private void FixedUpdate()
         {
+            if (PauseController.Instance.IsPaused)
+                return;
+
             if (!_healthController)
                 return;
 

@@ -1,17 +1,26 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace PlayerLogic
 {
     [RequireComponent(typeof(HealthController))]
     [RequireComponent(typeof(WeaponController))]
+    [RequireComponent(typeof(Animator))]
     public class Player : MonoBehaviour
     {
         private static readonly int Die = Animator.StringToHash("Die");
         private HealthController _healthController;
         private WeaponController _weaponController;
         private Animator _animator;
+        private MainInputAction _mainInputAction;
+        private InputAction _pauseInputAction;
+
+        private void Awake()
+        {
+            _mainInputAction = new MainInputAction();
+        }
 
         private void Start()
         {
@@ -19,7 +28,7 @@ namespace PlayerLogic
             _weaponController = GetComponent<WeaponController>();
             _animator = GetComponent<Animator>();
 
-            _healthController.OnDie += (sender, args) =>
+            _healthController.OnDie += (_, _) =>
             {
                 _weaponController.RemoveWeapon();
 
@@ -36,6 +45,26 @@ namespace PlayerLogic
             Destroy(gameObject);
 
             SceneManager.LoadScene("MainMenu");
+        }
+
+        private void OnEnable()
+        {
+            _pauseInputAction = _mainInputAction.Player.TogglePause;
+            _pauseInputAction.Enable();
+
+            _pauseInputAction.performed += OnPause;
+        }
+
+        private void OnDisable()
+        {
+            _pauseInputAction.performed -= OnPause;
+
+            _pauseInputAction.Disable();
+        }
+
+        private void OnPause(InputAction.CallbackContext obj)
+        {
+            PauseController.Instance.TogglePause();
         }
     }
 }

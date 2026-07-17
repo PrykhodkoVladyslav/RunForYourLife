@@ -25,8 +25,25 @@ namespace EnemyLogic
             _animator = GetComponent<Animator>();
         }
 
+        private void OnEnable()
+        {
+            PauseController.Instance.OnPaused += Pause;
+            PauseController.Instance.OnUnpaused += Unpause;
+        }
+
+        private void OnDisable()
+        {
+            PauseController.Instance.OnPaused -= Pause;
+            PauseController.Instance.OnUnpaused -= Unpause;
+        }
+
         private void FixedUpdate()
         {
+            _rigidbody.linearVelocity = Vector2.zero;
+
+            if (PauseController.Instance.IsPaused)
+                return;
+
             if (!target)
             {
                 _animator.SetBool(IsWalking, false);
@@ -42,5 +59,8 @@ namespace EnemyLogic
 
             _animator.SetBool(IsWalking, true);
         }
+
+        private void Pause() => _animator.speed = 0f;
+        private void Unpause() => _animator.speed = 1f;
     }
 }

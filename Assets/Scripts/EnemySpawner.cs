@@ -1,24 +1,29 @@
-using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private int intervalInSeconds;
+    private float _timeElapsed = 0;
 
-    private void Start()
+    private void Update()
     {
-        StartCoroutine(SpawnEnemy());
-    }
+        if (PauseController.Instance.IsPaused)
+            return;
 
-    private IEnumerator SpawnEnemy()
-    {
-        while (true)
+        _timeElapsed += Time.deltaTime;
+
+        if (_timeElapsed >= intervalInSeconds)
         {
-            yield return new WaitForSeconds(intervalInSeconds);
+            _timeElapsed -= intervalInSeconds;
 
-            var enemy = Instantiate(GetRandomEnemyPrefab());
-            enemy.transform.position = transform.position;
+            var prefab = GetRandomEnemyPrefab();
+            if (prefab)
+            {
+                var enemy = Instantiate(prefab);
+                enemy.transform.position = transform.position;
+            }
         }
     }
 

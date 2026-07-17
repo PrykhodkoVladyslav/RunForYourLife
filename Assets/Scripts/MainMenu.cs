@@ -8,17 +8,17 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Button fallbackButton;
 
-    private UiInputAction _uiInputAction;
+    private MainInputAction _mainInputAction;
     private InputAction _navigateInputAction;
 
     private void Awake()
     {
-        _uiInputAction = new UiInputAction();
+        _mainInputAction = new MainInputAction();
     }
 
     private void OnEnable()
     {
-        _navigateInputAction = _uiInputAction.UI.Navigate;
+        _navigateInputAction = _mainInputAction.UI.Navigate;
         _navigateInputAction.Enable();
 
         _navigateInputAction.performed += OnNavigatePositionChanged;
